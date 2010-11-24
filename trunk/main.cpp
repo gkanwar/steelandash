@@ -19,16 +19,16 @@ using namespace std;
 #include "player.h"
 
 void rageQuit(string s);
-void init(int argc, char** argv, Tile** map, int& num_players);
-void gameLoop(Tile** map);
+void init(int argc, char** argv, Tile** map, vector<Player> players);
+void gameLoop(Tile** map, vector<Player> players);
 
 int main(int argc, char** argv)
 {
-    int num_players;
+    vector<Player> players;
     Tile** map;
-    init(argc, argv, map, num_players);
+    init(argc, argv, map, players);
 
-    gameLoop(map);
+    gameLoop(map, players);
 
     return 0;
 }
@@ -39,11 +39,11 @@ void rageQuit(string s)
     exit(EXIT_ERR_CODE);
 }
 
-void init(int argc, char** argv, Tile** map, int& num_players)
+void init(int argc, char** argv, Tile** map, vector<Player> players)
 {
-    int x, y;
+    int x, y, num_players;
     int type, resource, owner;
-    string filename;
+    string filename, name;
     ifstream mapf;
 
     if(argc < 2)
@@ -72,10 +72,19 @@ void init(int argc, char** argv, Tile** map, int& num_players)
             map[x][y] = Tile(type, resource, owner, i, j, false);
         }
     }
+
+    players.resize(num_players);
+    for(int i = 0; i < num_players; i++)
+    {
+        cout << "Enter name for player " << i << ": ";
+        cin >> name;
+        players[i] = Player();
+        players[i].addName(name);
+    }
 }
 
 //Main game loop
-void gameLoop(Tile** map)
+void gameLoop(Tile** map, vector<Player> players)
 {
     int turn;
 }
