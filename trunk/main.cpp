@@ -7,67 +7,171 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
 
-struct unit
+class Cost
+{
+  public:
+    int organics;
+    int ore;
+    int rare_metals;
+    int production;
+
+    Cost()
+    {
+        organics = 0;
+        ore = 0;
+        rare_metals = 0;
+        production = 0;
+    }
+    Cost(int org, int o, int r_m, int p)
+    {
+        organics = org;
+        ore = o;
+        rare_metals = r_m;
+        production = p;
+    }
+
+    Cost operator+(Cost c)
+    {
+        return Cost(organics+c.organics, ore+c.ore, rare_metals+c.rare_metals, production+c.production);
+    }
+    void operator+=(Cost c)
+    {
+        organics += c.organics;
+        ore += c.ore;
+        rare_metals += c.rare_metals;
+        production += c.production;
+    }
+};
+
+class Tile;
+
+struct Unit
 {
     int type;
     int owner;
-    int a_val, d_val;
+    int power;
+    Tile* loc;
+    Tile* target;
+    Cost c;
 };
 
-class attack
+class Combat
 {
   private:
-    unit p_attacker;
-    unit p_defender;
-    vector<unit> s_attacker;
-    vector<unit> s_defender;
+    Unit p_attacker;
+    Unit p_defender;
+    vector<Unit> s_attacker;
+    vector<Unit> s_defender;
+    Tile *loc;
+
+    void bounce()
+    {
+        p_attacker.target = p_attacker.loc;
+    }
+    void retreat()
+    {
+        Tile* retreat_loc;
+        //input the retreat loc somehow
+        //with error checking
+
+        p_defender.loc = retreat_loc;
+    }
+
 
   public:
-    attack()
+    Combat()
     {
         s_attacker.resize(0);
         s_defender.resize(0);
     }
-    attack(unit p_a, unit p_d)
+    Combat(Unit p_a, Unit p_d, Tile* l)
     {
+        //These don't copy
         p_attacker = p_a;
         p_defender = p_d;
+        loc = l;
+        p_a.target = loc;
     }
 
-    void addDefender(unit s_d)
+    void addDefender(Unit s_d)
     {
         s_defender.push_back(s_d);
     }
-    void addAttacker(unit s_a)
+    void addAttacker(Unit s_a)
     {
         s_attacker.push_back(s_a);
     }
     void resolve()
     {
-        //Do something
+        int attack_total = 0, defense_total = 0;
+        attack_total += rand() % p_attacker.power;
+        defense_total += rand() % p_defender.power;
+
+        for(int i = 0; i < s_attacker.size(); i++)
+        {
+            attack_total += rand() % s_attacker[i].power;
+        }
+        for(int i = 0; i < s_defender.size(); i++)
+        {
+            defense_total += rand() % s_defender[i].power;
+        }
+
+        if(attack_total > defense_total)
+        {
+            bounce();
+        }
+        else
+        {
+            retreat();
+        }
+    }
+    Cost attackCost()
+    {
+        Cost c;
+
+        c += p_attacker.c;
+        for(int i = 0; i < s_attacker.size(); i++)
+        {
+            c += s_attacker[i].c;
+        }
+
+        return c;
+    }
+    Cost defenseCost()
+    {
+        Cost c;
+
+        c += p_defender.c;
+        for(int i = 0; i < s_defender.size(); i++)
+        {
+            c += s_defender[i].c;
+        }
+
+        return c;
     }
 };
 
-class tile
+class Tile
 {
   private:
     int type, resource;
     bool e_harvester;
-    vector<unit> unit_stack;
+    vector<Unit> unit_stack;
 
   public:
-    tile()
+    Tile()
     {
         type = 0;
         resource = 0;
         e_harvester = false;
         unit_stack.resize(0);
     }
-    tile(int t, int r, bool e_h, vector<unit> unit_stack_copy)
+    Tile(int t, int r, bool e_h, vector<Unit> unit_stack_copy)
     {
         type = t;
         resource = r;
@@ -83,11 +187,11 @@ class tile
     {
         e_harvester = e_h;
     }
-    void setUnitStack(vector<unit> unit_stack_copy)
+    void setUnitStack(vector<Unit> unit_stack_copy)
     {
         unit_stack = unit_stack_copy;
     }
-    void addUnit(unit u)
+    void addUnit(Unit u)
     {
         unit_stack.push_back(u);
     }
@@ -100,7 +204,7 @@ int main (int argc, char** argv)
     ifstream mapf;
 
     int x, y;
-    tile** map;
+    Tile** map;
 
     if(argc > 1)
     {
@@ -110,10 +214,10 @@ int main (int argc, char** argv)
 
     mapf >> x >> y;
 
-    map = new tile*[x];
+    map = new Tile*[x];
     for(int i = 0; i < x; i++)
     {
-        map[i] = new tile[y];
+        map[i] = new Tile[y];
     }
 
 
