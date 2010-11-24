@@ -159,7 +159,7 @@ class Combat
 class Tile
 {
   private:
-    int type, resource;
+    int type, resource, owner;
     bool e_harvester;
     vector<Unit> unit_stack;
 
@@ -171,10 +171,18 @@ class Tile
         e_harvester = false;
         unit_stack.resize(0);
     }
-    Tile(int t, int r, bool e_h, vector<Unit> unit_stack_copy)
+    Tile(int t, int r, int o, bool e_h)
     {
         type = t;
         resource = r;
+        owner = o;
+        e_harvester = e_h;
+    }
+    Tile(int t, int r, int o, bool e_h, vector<Unit> unit_stack_copy)
+    {
+        type = t;
+        resource = r;
+        owner = o;
         e_harvester = e_h;
         unit_stack = unit_stack_copy;
     }
@@ -186,6 +194,10 @@ class Tile
     void setHarvester(bool e_h)
     {
         e_harvester = e_h;
+    }
+    void setOwner(int o)
+    {
+        owner = o;
     }
     void setUnitStack(vector<Unit> unit_stack_copy)
     {
@@ -200,6 +212,7 @@ class Tile
 
 int main (int argc, char** argv)
 {
+    int type, resource;
     string filename;
     ifstream mapf;
 
@@ -220,5 +233,19 @@ int main (int argc, char** argv)
         map[i] = new Tile[y];
     }
 
+    for(int i = 0; i < x; i++)
+    {
+        for(int j = 0; j < y; j++)
+        {
+            mapf >> type >> resource;
+            map[x][y] = Tile(type, resource, false);
+        }
+    }
 
+    while(true)
+    {
+        //Main game loop
+    }
+
+    return 0;
 }
