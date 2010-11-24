@@ -8,6 +8,8 @@
 #ifndef COMBAT_H
 #define COMBAT_H
 
+#include <cstdlib>
+
 #include "tile.h"
 #include "unit.h"
 #include "cost.h"

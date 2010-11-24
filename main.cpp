@@ -7,21 +7,31 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <cstdlib>
 
 using namespace std;
 
 #include "tile.h"
 #include "combat.h"
 
-int main (int argc, char** argv)
+void init(int argc, char** argv, Tile** map);
+void gameLoop(Tile** map);
+
+int main(int argc, char** argv)
 {
+    Tile** map;
+    init(argc, argv, map);
+
+    gameLoop(map);
+
+    return 0;
+}
+
+void init(int argc, char** argv, Tile** map)
+{
+    int x, y;
     int type, resource, owner;
     string filename;
     ifstream mapf;
-
-    int x, y;
-    Tile** map;
 
     if(argc > 1)
     {
@@ -45,6 +55,9 @@ int main (int argc, char** argv)
             map[x][y] = Tile(type, resource, owner, false);
         }
     }
+}
 
-    return 0;
+void gameLoop(Tile** map)
+{
+    //Main game loop
 }
