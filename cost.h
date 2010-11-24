@@ -47,6 +47,17 @@ class Cost
         rare_metals += c.rare_metals;
         production += c.production;
     }
+    Cost operator-(Cost c)
+    {
+        return Cost(organics-c.organics, ore-c.ore, rare_metals-c.rare_metals, production-c.production);
+    }
+    void operator-=(Cost c)
+    {
+        organics -= c.organics;
+        ore -= c.ore;
+        rare_metals -= c.rare_metals;
+        production -= c.production;
+    }
 };
 
 #endif

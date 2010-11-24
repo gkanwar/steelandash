@@ -82,6 +82,10 @@ class Tile
     {
         return type;
     }
+    bool isHarvester()
+    {
+        return e_harvester;
+    }
     int getResource()
     {
         return resource;
