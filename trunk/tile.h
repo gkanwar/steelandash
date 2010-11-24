@@ -17,6 +17,7 @@ class Tile
 {
   private:
     int type, resource, owner;
+    int x, y;
     bool e_harvester;
     vector<Unit> unit_stack;
 
@@ -28,18 +29,22 @@ class Tile
         e_harvester = false;
         unit_stack.resize(0);
     }
-    Tile(int t, int r, int o, bool e_h)
+    Tile(int t, int r, int o, int x_c, int y_c, bool e_h)
     {
         type = t;
         resource = r;
         owner = o;
+        x = x_c;
+        y = y_c;
         e_harvester = e_h;
     }
-    Tile(int t, int r, int o, bool e_h, vector<Unit> unit_stack_copy)
+    Tile(int t, int r, int o, int x_c, int y_c, bool e_h, vector<Unit> unit_stack_copy)
     {
         type = t;
         resource = r;
         owner = o;
+        x = x_c;
+        y = y_c;
         e_harvester = e_h;
         unit_stack = unit_stack_copy;
     }
@@ -56,6 +61,14 @@ class Tile
     {
         owner = o;
     }
+    void setX(int x_c)
+    {
+        x = x_c;
+    }
+    void setY(int y_c)
+    {
+        y = y_c;
+    }
     void setUnitStack(vector<Unit> unit_stack_copy)
     {
         unit_stack = unit_stack_copy;
@@ -63,6 +76,32 @@ class Tile
     void addUnit(Unit u)
     {
         unit_stack.push_back(u);
+    }
+
+    int getType()
+    {
+        return type;
+    }
+    int getResource()
+    {
+        return resource;
+    }
+    int getOwner()
+    {
+        return owner;
+    }
+    int getX()
+    {
+        return x;
+    }
+    int getY()
+    {
+        return y;
+    }
+
+    bool operator==(Tile t)
+    {
+        return (t.getX() == x && t.getY() == y);
     }
 };
 
