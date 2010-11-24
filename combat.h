@@ -9,6 +9,7 @@
 #define COMBAT_H
 
 #include <cstdlib>
+#include <vector>
 
 #include "tile.h"
 #include "unit.h"
