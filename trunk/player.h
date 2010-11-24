@@ -19,7 +19,10 @@ class Player
 {
     vector<Tile> terr_owned;
     vector<Unit> unit_owned;
+    //Player name
     string name;
+    //Resources the player has
+    Cost resources = Cost();
 
   public:
     Player()
@@ -64,6 +67,78 @@ class Player
                 unit_owned.erase(unit_owned.begin() + i);
             }
         }
+    }
+    void addResources(Cost r)
+    {
+        resources += r;
+    }
+    void spendResources(Cost r)
+    {
+        resources -= r;
+    }
+
+    void upkeep()
+    {
+        int energy = 0;
+        Cost res_gained = Cost();
+        for(int i = 0; i < terr_owned.length(); i++)
+        {
+            if(terr_owned[i].isHarvester())
+            {
+                energy++;
+            }
+            else
+            {
+                energy--;
+                switch(terr_owned[i].resource)
+                {
+                    case 1:
+                    {
+                        res_gained.organics++;
+                        break;
+                    }
+                    case 2:
+                    {
+                        res_gained.ore++;
+                        break;
+                    }
+                    case 3:
+                    {
+                        res_gained.rare_metals++;
+                        break;
+                    }
+                    case 4:
+                    {
+                        res_gained.production++;
+                        break;
+                    }
+                }
+            }
+
+            if(energy < 0)
+            {
+                res_gained.orgranics -= 2;
+                if(res_gained.organics < 0) res_gained.organics = 0;
+                res_gained.ore -= 2;
+                if(res_gained.ore < 0) res_gained.ore = 0;
+                res_gained.rare_metals -= 2;
+                if(res_gained.rare_metals < 0) res_gained.rare_metals = 0;
+                res_gained.production -= 2;
+                if(res_gained.production < 0) res_gained.production = 0;
+            }
+
+            resources += res_gained;
+        }
+    }
+
+    void develop()
+    {
+        //Development stuff
+    }
+
+    void attack(vector<Combat> combats)
+    {
+        //Input all attacks and moves, create combat objects for each combat, return the vector of them
     }
 };
 

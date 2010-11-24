@@ -86,5 +86,37 @@ void init(int argc, char** argv, Tile** map, vector<Player> players)
 //Main game loop
 void gameLoop(Tile** map, vector<Player> players)
 {
-    int turn;
+    int turn = 0;
+    Player currPlayer;
+    vector<Combat> combats;
+
+    //Main loop
+    while(true)
+    {
+        currPlayer = players[turn];
+        //1. Upkeep - Energy, collect resources
+        currPlayer.upkeep();
+        //2. Development - Research/energy harvester stuff
+        currPlayer.develop();
+        //3. Attack/Move - Declare all moves and attacks
+        currPlayer.attack(combats);
+        //4. Combat - Resolve all combats
+        for(int i = 0; i < combats.size(); i++)
+        {
+            combats[i].resolve();
+        }
+
+        turn++;
+        if(turn >= players.size())
+        {
+            turn = 0;
+        }
+    }
+
+
+
+
+
+
+    }
 }
