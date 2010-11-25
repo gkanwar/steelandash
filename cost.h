@@ -16,47 +16,47 @@
 class Cost
 {
   public:
-    int organics;
-    int ore;
-    int rare_metals;
-    int production;
+    int m_organics;
+    int m_ore;
+    int m_rareMetals;
+    int m_production;
 
     Cost()
     {
-        organics = 0;
-        ore = 0;
-        rare_metals = 0;
-        production = 0;
+        m_organics = 0;
+        m_ore = 0;
+        m_rareMetals = 0;
+        m_production = 0;
     }
     Cost(int org, int o, int r_m, int p)
     {
-        organics = org;
-        ore = o;
-        rare_metals = r_m;
-        production = p;
+        m_organics = org;
+        m_ore = o;
+        m_rareMetals = r_m;
+        m_production = p;
     }
 
     Cost operator+(Cost c)
     {
-        return Cost(organics+c.organics, ore+c.ore, rare_metals+c.rare_metals, production+c.production);
+        return Cost(m_organics+c.m_organics, m_ore+c.m_ore, m_rareMetals+c.m_rareMetals, m_production+c.m_production);
     }
     void operator+=(Cost c)
     {
-        organics += c.organics;
-        ore += c.ore;
-        rare_metals += c.rare_metals;
-        production += c.production;
+        m_organics += c.m_organics;
+        m_ore += c.m_ore;
+        m_rareMetals += c.m_rareMetals;
+        m_production += c.m_production;
     }
     Cost operator-(Cost c)
     {
-        return Cost(organics-c.organics, ore-c.ore, rare_metals-c.rare_metals, production-c.production);
+        return Cost(m_organics-c.m_organics, m_ore-c.m_ore, m_rareMetals-c.m_rareMetals, m_production-c.m_production);
     }
     void operator-=(Cost c)
     {
-        organics -= c.organics;
-        ore -= c.ore;
-        rare_metals -= c.rare_metals;
-        production -= c.production;
+        m_organics -= c.m_organics;
+        m_ore -= c.m_ore;
+        m_rareMetals -= c.m_rareMetals;
+        m_production -= c.m_production;
     }
 };
 
