@@ -16,96 +16,96 @@
 class Tile
 {
   private:
-    int type, resource, owner;
-    int x, y;
-    bool e_harvester;
-    vector<Unit> unit_stack;
+    int m_type, m_resource, m_owner;
+    int m_x, m_y;
+    bool m_eHarvester;
+    vector<Unit> m_unitStack;
 
   public:
     Tile()
     {
-        type = 0;
-        resource = 0;
-        e_harvester = false;
-        unit_stack.resize(0);
+        m_type = 0;
+        m_resource = 0;
+        m_eHarvester = false;
+        m_unitStack.resize(0);
     }
     Tile(int t, int r, int o, int x_c, int y_c, bool e_h)
     {
-        type = t;
-        resource = r;
-        owner = o;
-        x = x_c;
-        y = y_c;
-        e_harvester = e_h;
+        m_type = t;
+        m_resource = r;
+        m_owner = o;
+        m_x = x_c;
+        m_y = y_c;
+        m_eHarvester = e_h;
     }
     Tile(int t, int r, int o, int x_c, int y_c, bool e_h, vector<Unit> unit_stack_copy)
     {
-        type = t;
-        resource = r;
-        owner = o;
-        x = x_c;
-        y = y_c;
-        e_harvester = e_h;
-        unit_stack = unit_stack_copy;
+        m_type = t;
+        m_resource = r;
+        m_owner = o;
+        m_x = x_c;
+        m_y = y_c;
+        m_eHarvester = e_h;
+        m_unitStack = unit_stack_copy;
     }
 
     void setType(int t)
     {
-        type = t;
+        m_type = t;
     }
     void setHarvester(bool e_h)
     {
-        e_harvester = e_h;
+        m_eHarvester = e_h;
     }
     void setOwner(int o)
     {
-        owner = o;
+        m_owner = o;
     }
     void setX(int x_c)
     {
-        x = x_c;
+        m_x = x_c;
     }
     void setY(int y_c)
     {
-        y = y_c;
+        m_y = y_c;
     }
     void setUnitStack(vector<Unit> unit_stack_copy)
     {
-        unit_stack = unit_stack_copy;
+        m_unitStack = unit_stack_copy;
     }
     void addUnit(Unit u)
     {
-        unit_stack.push_back(u);
+        m_unitStack.push_back(u);
     }
 
     int getType()
     {
-        return type;
+        return m_type;
     }
     bool isHarvester()
     {
-        return e_harvester;
+        return m_eHarvester;
     }
     int getResource()
     {
-        return resource;
+        return m_resource;
     }
     int getOwner()
     {
-        return owner;
+        return m_owner;
     }
     int getX()
     {
-        return x;
+        return m_x;
     }
     int getY()
     {
-        return y;
+        return m_y;
     }
 
     bool operator==(Tile t)
     {
-        return (t.getX() == x && t.getY() == y);
+        return (t.getX() == m_x && t.getY() == m_y);
     }
 };
 

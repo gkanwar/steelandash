@@ -50,24 +50,25 @@ class Player
     }
     void loseTerr(Tile t)
     {
-        for(int i = 0; i < m_terrOwned.size(); i++)
-        {
-            if(m_terrOwned[i] == t)
-            {
-                m_terrOwned.erase(m_terrOwned.begin() + i);
-                break;
-            }
-        }
+
+    	for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it) {
+    	    if( (*it) == t )
+    	    {
+    	    	m_terrOwned.erase(it);
+    	    	break;
+    	    }
+    	}
     }
     void loseUnit(Unit u)
     {
-        for(int i = 0; i < m_unitOwned.size(); i++)
-        {
-            if(&m_unitOwned[i] == &u)
-            {
-                m_unitOwned.erase(m_unitOwned.begin() + i);
-            }
-        }
+
+    	for (vector<Unit>::iterator it = m_unitOwned.begin(); it!=m_unitOwned.end(); ++it) {
+    	    if( &(*it) == &u )
+    	    {
+    	    	m_unitOwned.erase(it);
+    	    	break;
+    	    }
+    	}
     }
     void addResources(Cost r)
     {
@@ -81,54 +82,53 @@ class Player
     void upkeep()
     {
         int energy = 0;
-        Cost res_gained = Cost();
-        for(int i = 0; i < m_terrOwned.size(); i++)
-        {
-            if(m_terrOwned[i].isHarvester())
-            {
-                energy++;
-            }
-            else
-            {
-                energy--;
-                switch(m_terrOwned[i].getResource())
-                {
-                    case 1:
-                    {
-                        res_gained.m_organics++;
-                        break;
-                    }
-                    case 2:
-                    {
-                        res_gained.m_ore++;
-                        break;
-                    }
-                    case 3:
-                    {
-                        res_gained.m_rareMetals++;
-                        break;
-                    }
-                    case 4:
-                    {
-                        res_gained.m_production++;
-                        break;
-                    }
-                }
-            }
+        Cost resGained = Cost();
+        for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it) {
+        	if((*it).isHarvester())
+			{
+				energy++;
+			}
+			else
+			{
+				energy--;
+				switch((*it).getResource())
+				{
+					case 1:
+					{
+						resGained.m_organics++;
+						break;
+					}
+					case 2:
+					{
+						resGained.m_ore++;
+						break;
+					}
+					case 3:
+					{
+						resGained.m_rareMetals++;
+						break;
+					}
+					case 4:
+					{
+						resGained.m_production++;
+						break;
+					}
+				}
+			}
 
-            if(energy < 0)
-            {
-                res_gained.m_organics -= 2;
-                if(res_gained.m_organics < 0) res_gained.m_organics = 0;
-                res_gained.m_ore -= 2;
-                if(res_gained.m_ore < 0) res_gained.m_ore = 0;
-                res_gained.m_rareMetals -= 2;
-                if(res_gained.m_rareMetals < 0) res_gained.m_rareMetals = 0;
-                res_gained.m_production -= 2;
-                if(res_gained.m_production < 0) res_gained.m_production = 0;
-            }
+			if(energy < 0)
+			{
+				resGained.m_organics -= 2;
+				if(resGained.m_organics < 0) resGained.m_organics = 0;
+				resGained.m_ore -= 2;
+				if(resGained.m_ore < 0) resGained.m_ore = 0;
+				resGained.m_rareMetals -= 2;
+				if(resGained.m_rareMetals < 0) resGained.m_rareMetals = 0;
+				resGained.m_production -= 2;
+				if(resGained.m_production < 0) resGained.m_production = 0;
+			}
 
-            m_resources += res_gained;
+			m_resources += resGained;
         }
     }
 

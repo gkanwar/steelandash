@@ -16,12 +16,12 @@ class Tile;
 
 struct Unit
 {
-    int type;
-    int owner;
-    int power;
-    Tile* loc;
-    Tile* target;
-    Cost c;
+    int m_type;
+    int m_owner;
+    int m_power;
+    Tile* m_pLoc;
+    Tile* m_pTarget;
+    Cost m_cost;
 };
 
 #endif
