@@ -113,10 +113,4 @@ void gameLoop(Tile** map, vector<Player> players)
         }
     }
 
-
-
-
-
-
-    }
 }
