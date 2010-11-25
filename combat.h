@@ -18,15 +18,15 @@
 class Combat
 {
   private:
-    Unit p_attacker;
-    Unit p_defender;
-    vector<Unit> s_attacker;
-    vector<Unit> s_defender;
-    Tile loc;
+    Unit m_attackerP;
+    Unit m_defenderP;
+    vector<Unit> m_attackerS;
+    vector<Unit> m_defenderS;
+    Tile m_loc;
 
     void bounce()
     {
-        p_attacker.target = p_attacker.loc;
+        m_attackerP.m_pTarget = m_attackerP.m_pLoc;
     }
     void retreat()
     {
@@ -34,46 +34,47 @@ class Combat
         //input the retreat loc somehow
         //with error checking
 
-        p_defender.loc = &retreat_loc;
+        m_defenderP.m_pLoc = &retreat_loc;
     }
 
 
   public:
     Combat()
     {
-        s_attacker.resize(0);
-        s_defender.resize(0);
+        m_attackerS.resize(0);
+        m_defenderS.resize(0);
     }
     Combat(Unit p_a, Unit p_d, Tile l)
     {
         //These don't copy
-        p_attacker = p_a;
-        p_defender = p_d;
-        loc = l;
-        p_a.target = &loc;
+        m_attackerP = p_a;
+        m_defenderP = p_d;
+        m_loc = l;
+        p_a.m_pTarget = &m_loc;
     }
 
     void addDefender(Unit s_d)
     {
-        s_defender.push_back(s_d);
+        m_defenderS.push_back(s_d);
     }
     void addAttacker(Unit s_a)
     {
-        s_attacker.push_back(s_a);
+        m_attackerS.push_back(s_a);
     }
     void resolve()
     {
         int attack_total = 0, defense_total = 0;
-        attack_total += rand() % p_attacker.power;
-        defense_total += rand() % p_defender.power;
+        attack_total += rand() % m_attackerP.m_power;
+        defense_total += rand() % m_defenderP.m_power;
 
-        for(int i = 0; i < s_attacker.size(); i++)
+
+        for(int i = 0; i < m_attackerS.size(); i++)
         {
-            attack_total += rand() % s_attacker[i].power;
+            attack_total += rand() % m_attackerS[i].m_power;
         }
-        for(int i = 0; i < s_defender.size(); i++)
+        for(int i = 0; i < m_defenderS.size(); i++)
         {
-            defense_total += rand() % s_defender[i].power;
+            defense_total += rand() % m_defenderS[i].m_power;
         }
 
         if(attack_total > defense_total)
@@ -89,10 +90,10 @@ class Combat
     {
         Cost c;
 
-        c += p_attacker.c;
-        for(int i = 0; i < s_attacker.size(); i++)
+        c += m_attackerP.m_cost;
+        for(int i = 0; i < m_attackerS.size(); i++)
         {
-            c += s_attacker[i].c;
+            c += m_attackerS[i].m_cost;
         }
 
         return c;
@@ -101,10 +102,10 @@ class Combat
     {
         Cost c;
 
-        c += p_defender.c;
-        for(int i = 0; i < s_defender.size(); i++)
+        c += m_defenderP.m_cost;
+        for(int i = 0; i < m_defenderS.size(); i++)
         {
-            c += s_defender[i].c;
+            c += m_defenderS[i].m_cost;
         }
 
         return c;

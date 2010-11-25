@@ -86,7 +86,7 @@ void init(int argc, char** argv, Tile** map, vector<Player> players)
 //Main game loop
 void gameLoop(Tile** map, vector<Player> players)
 {
-    int turn = 0;
+    unsigned int turn = 0;
     Player currPlayer;
     vector<Combat> combats;
 
@@ -101,9 +101,8 @@ void gameLoop(Tile** map, vector<Player> players)
         //3. Attack/Move - Declare all moves and attacks
         currPlayer.attack(combats);
         //4. Combat - Resolve all combats
-        for(int i = 0; i < combats.size(); i++)
-        {
-            combats[i].resolve();
+        for (vector<Combat>::iterator it = combats.begin(); it!=combats.end(); ++it) {
+            (*it).resolve();
         }
 
         turn++;
