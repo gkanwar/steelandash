@@ -18,6 +18,7 @@ using namespace std;
 #include "combat.h"
 #include "player.h"
 
+bool win();
 void rageQuit(string s);
 void init(int argc, char** argv, Tile** map, vector<Player> players);
 void gameLoop(Tile** map, vector<Player> players);
@@ -31,6 +32,12 @@ int main(int argc, char** argv)
     gameLoop(map, players);
 
     return 0;
+}
+
+bool win()
+{
+    //Needs to changed
+    return false;
 }
 
 void rageQuit(string s)
@@ -93,6 +100,7 @@ void gameLoop(Tile** map, vector<Player> players)
     //Main loop
     while(true)
     {
+        //Get the (pointer for) player object for the current player and story in local variable
         currPlayer = players[turn];
         //1. Upkeep - Energy, collect resources
         currPlayer.upkeep();
@@ -101,15 +109,19 @@ void gameLoop(Tile** map, vector<Player> players)
         //3. Attack/Move - Declare all moves and attacks
         currPlayer.attack(combats);
         //4. Combat - Resolve all combats
-        for (vector<Combat>::iterator it = combats.begin(); it!=combats.end(); ++it) {
+        for (vector<Combat>::iterator it = combats.begin(); it!=combats.end(); ++it)
+        {
             (*it).resolve();
         }
 
+        //Check win condition here
+        if(win()) break;
+
+        //Next turn
         turn++;
         if(turn >= players.size())
         {
             turn = 0;
         }
     }
-
 }

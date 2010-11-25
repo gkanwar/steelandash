@@ -51,8 +51,9 @@ class Player
     void loseTerr(Tile t)
     {
 
-    	for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it) {
-    	    if( (*it) == t )
+    	for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it)
+    	{
+    	    if((*it) == t)
     	    {
     	    	m_terrOwned.erase(it);
     	    	break;
@@ -62,8 +63,9 @@ class Player
     void loseUnit(Unit u)
     {
 
-    	for (vector<Unit>::iterator it = m_unitOwned.begin(); it!=m_unitOwned.end(); ++it) {
-    	    if( &(*it) == &u )
+    	for (vector<Unit>::iterator it = m_unitOwned.begin(); it!=m_unitOwned.end(); ++it)
+    	{
+    	    if(&(*it) == &u)
     	    {
     	    	m_unitOwned.erase(it);
     	    	break;
@@ -83,7 +85,8 @@ class Player
     {
         int energy = 0;
         Cost resGained = Cost();
-        for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it) {
+        for (vector<Tile>::iterator it = m_terrOwned.begin(); it!=m_terrOwned.end(); ++it)
+        {
         	if((*it).isHarvester())
 			{
 				energy++;
