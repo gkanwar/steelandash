@@ -138,11 +138,65 @@ class Player
     void develop()
     {
         //Development stuff
+        //Nothing yet
     }
 
     void attack(vector<Combat> combats)
     {
         //Input all attacks and moves, create combat objects for each combat, return the vector of them
+        Combat tempCombat;
+        char code;
+        int unitX, unitY, targetX, targetY;
+        Unit attacker, defender;
+        vector<Unit> movedUnits;
+
+        movedUnits.resize(0);
+        combats.resize(0);
+
+        while(true)
+        {
+            cout << "Input: <code> <unit:x y> <target:x y> or '.' to end" << endl;
+            cin >> code;
+            if(code == '.')
+            {
+                break;
+            }
+            else if(code == 'A')
+            {
+                cin >> unitX >> unitY >> targetX >> targetY;
+                if(map[unitX][unitY].hasUnit())
+                {
+                    attacker = map[unitX][unitY].getUnit();
+                }
+                else
+                {
+                    cout << "Error: no unit" << endl;
+                    continue;
+                }
+                if(map[targetX][targetY].hasUnit())
+                {
+                    defender = map[targetX][targetY].getUnit();
+                }
+                else
+                {
+                    attacker.move(map[targetX][targetY]);
+                    movedUnits.push_back(attacker);
+                    continue;
+                }
+                tempCombat = Combat(map[unitX][unitY].getUnit(), map[targetX][targetY].getUnit(), map[targetX][targetY]);
+                combats.push_back(tempCombat);
+            }
+            else if(code == 'S')
+            {
+                cin >> unitX >> unitY >> targetX >> targetY;
+                //Do something
+            }
+            else
+            {
+                cout << "Error, try again" << endl;
+                continue;
+            }
+        }
     }
 };
 

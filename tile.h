@@ -102,6 +102,25 @@ class Tile
     {
         return m_y;
     }
+    bool hasUnit()
+    {
+        return (m_unitStack.size() > 0);
+    }
+    Unit getUnit()
+    {
+            return m_unitStack[0];
+    }
+    void removeUnit(Unit u)
+    {
+        for(vector<Unit>::iterator it=m_unitStack.begin(); it != m_unitStack.end(); ++it)
+        {
+            if((*it) == u)
+            {
+                m_unitStack.erase(it);
+                break;
+            }
+        }
+    }
 
     bool operator==(Tile t)
     {
