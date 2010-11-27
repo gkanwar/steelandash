@@ -1,127 +1,103 @@
-/*
- * File: main.cpp
- * --------------------------------
- * Entry point for the program.
- */
-
-#define EXIT_ERR_CODE 1
-
-#include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 #include <cstdlib>
+
+#define EXIT_SUCCESS 0
+#define EXIT_ERROR 1
+
+#include "tile.h"
+#include "player.h"
+#include "unit.h"
 
 using namespace std;
 
-#include "tile.h"
-#include "combat.h"
-#include "player.h"
+Tile** map;
+vector<Unit> units;
+vector<Player> players;
 
-bool win();
-void rageQuit(string s);
-void init(int argc, char** argv, Tile** map, vector<Player> players);
-void gameLoop(Tile** map, vector<Player> players);
+bool init(int argc, char** argv);
+void gameLoop();
+
 
 int main(int argc, char** argv)
 {
-    vector<Player> players;
-    Tile** map;
-    init(argc, argv, map, players);
+	if(!init(argc, argv))
+	{
+		return EXIT_ERROR;
+	}
 
-    gameLoop(map, players);
+	gameLoop();
 
-    return 0;
+	return EXIT_SUCCESS;
 }
 
-bool win()
+bool init(int argc, char** argv)
 {
-    //Needs to changed
-    return false;
+	//Not enough arguments
+	if(argc <= 2)
+	{
+		return false;
+	}
+
+	//Read in map data
+	string filename = argv[1];
+	ifstream mapf;
+	int mapNumPlayers;
+	int x, y;
+	int base, res;
+
+	mapf.open(filename.c_str(), ifstream::in);
+	mapf >> mapNumPlayers;
+	mapf >> x >> y;
+
+	//Set up dynamic array
+	map = new Tile*[x];
+	for(int i = 0; i < x; i++)
+	{
+		map[i] = new Tile[y];
+	}
+
+	//Read in tile data
+	for(int i = 0; i < x; i++)
+	{
+		for(int j = 0; j < y; j++)
+		{
+			mapf >> base;
+			map[i][j] = Tile(base);
+		}
+	}
+
+	//Read in player info
+	int numPlayers = atoi(argv[2]);
+	string pName;
+	Player temp;
+
+	if(mapNumPlayers < numPlayers)
+	{
+		return false;
+	}
+
+	players.resize(0);
+	for(int i = 0; i < numPlayers; i++)
+	{
+		cout << "Player " << i << " name? ";
+		cin >> pName;
+		temp = Player(pName);
+		players.push_back(temp);
+	}
+
+	//Initialize the units vector
+	units.resize(0);
+
+	return true;
 }
 
-void rageQuit(string s)
+void gameLoop()
 {
-    cout << "Error: " << s << endl;
-    exit(EXIT_ERR_CODE);
-}
-
-void init(int argc, char** argv, Tile** map, vector<Player> players)
-{
-    int x, y, num_players;
-    int type, resource, owner;
-    string filename, name;
-    ifstream mapf;
-
-    if(argc < 2)
-    {
-        rageQuit("Not enough arguments. You must supply map file and number of players.");
-    }
-
-    filename = argv[1];
-    num_players = atoi(argv[2]);
-
-    mapf.open(filename.c_str(), ifstream::in);
-
-    mapf >> x >> y;
-
-    map = new Tile*[x];
-    for(int i = 0; i < x; i++)
-    {
-        map[i] = new Tile[y];
-    }
-
-    for(int i = 0; i < x; i++)
-    {
-        for(int j = 0; j < y; j++)
-        {
-            mapf >> type >> resource >> owner;
-            map[x][y] = Tile(type, resource, owner, i, j, false);
-        }
-    }
-
-    players.resize(num_players);
-    for(int i = 0; i < num_players; i++)
-    {
-        cout << "Enter name for player " << i << ": ";
-        cin >> name;
-        players[i] = Player();
-        players[i].addName(name);
-    }
-}
-
-//Main game loop
-void gameLoop(Tile** map, vector<Player> players)
-{
-    unsigned int turn = 0;
-    Player currPlayer;
-    vector<Combat> combats;
-
-    //Main loop
-    while(true)
-    {
-        //Get the (pointer for) player object for the current player and story in local variable
-        currPlayer = players[turn];
-        //1. Upkeep - Energy, collect resources
-        currPlayer.upkeep();
-        //2. Development - Research/energy harvester stuff
-        currPlayer.develop();
-        //3. Attack/Move - Declare all moves and attacks
-        currPlayer.attack(combats);
-        //4. Combat - Resolve all combats
-        for (vector<Combat>::iterator it = combats.begin(); it!=combats.end(); ++it)
-        {
-            (*it).resolve();
-        }
-
-        //Check win condition here
-        if(win()) break;
-
-        //Next turn
-        turn++;
-        if(turn >= players.size())
-        {
-            turn = 0;
-        }
-    }
+	while(true)
+	{
+		//Main game occurs here
+	}
 }

@@ -1,51 +1,51 @@
 /*
  * unit.h
- * ---------------------------------
- * Contains the struct Unit. This
- * defines the type, owner, power,
- * location, cost and optionally target
- * in the case of moving or attacking.
+ * -------------------------------
+ * Contains the Unit class. This class
+ * contains data for a unit with
+ * functions to operate on it.
  */
 
 #ifndef UNIT_H
 #define UNIT_H
 
-#include "cost.h"
-
-class Tile;
+class Player;
 
 class Unit
 {
-  public:
-    bool m_canMove;
-    int m_type;
-    int m_owner;
-    int m_power;
-    Tile* m_pLoc;
-    Tile* m_pTarget;
-    Cost m_cost;
+	private:
+		//Current location
+		int m_x, m_y;
+		//Target location
+		int m_targetX, m_targetY;
+		//Power value
+		int m_power;
+		//Has the unit been set to move this turn?
+		bool m_hasMoved;
+		//Owner
+		Player* m_owner;
 
-    Unit()
-    {
-        m_canMove = true;
-    }
+	public:
+		//Default constructor
+		Unit();
+		//Regular constructor
+		Unit(int x, int y, int power, Player* m_owner);
 
-    bool canMove()
-    {
-        return m_canMove;
-    }
-    void move(Tile* target)
-    {
-        m_pTarget = target;
-        m_canMove = false;
-    }
-
-    void resolve()
-    {
-        (*m_pLoc).removeUnit(this);
-        m_pLoc = m_pTarget;
-        (*m_pTarget).addUnit(this);
-    }
+		//Set the power of the unit
+		void setPower(int power);
+		//Async set the location of the unit
+		void setLoc(int x, int y);
+		//Set the target location
+		void setMove(int targetX, int targetY);
+		//Find out if a target is set
+		bool hasMoved();
+		//Resolve movement
+		void resolve();
+		//Get the power level
+		int getPower();
+		//Get the owner
+		Player* getOwner();
 };
 
 #endif
+
