@@ -13,14 +13,26 @@
 
 using namespace std;
 
+void Player::resetResearch()
+{
+	for(int i = 0; i < NUM_DEVELOPMENTS; i++)
+	{
+		m_research[i] = false;
+	}
+}
+
 Player::Player()
 {
 	m_units.resize(0);
 	m_terrs.resize(0);
+	resetResearch();
 }
 Player::Player(string name)
 {
+	m_units.resize(0);
+	m_terrs.resize(0);
 	m_name = name;
+	resetResearch();
 }
 
 void Player::addUnit(Unit* unit)
@@ -52,4 +64,8 @@ void Player::deleteTerritory(Tile* terr)
 			break;
 		}
 	}
+}
+void Player::research(int numDevelopment)
+{
+	m_research[numDevelopment] = true;
 }

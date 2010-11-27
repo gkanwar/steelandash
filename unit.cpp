@@ -33,6 +33,14 @@ void Unit::setLoc(int x, int y)
 	m_x = x;
 	m_y = y;
 }
+int getXLoc()
+{
+	return m_x;
+}
+int getYLoc()
+{
+	return m_y;
+}
 void Unit::setMove(int targetX, int targetY)
 {
 	m_targetX = targetX;

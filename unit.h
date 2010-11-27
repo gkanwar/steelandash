@@ -35,6 +35,10 @@ class Unit
 		void setPower(int power);
 		//Async set the location of the unit
 		void setLoc(int x, int y);
+		//Get the x location of the unit
+		int getXLoc();
+		//Get the y location of the unit
+		int getYLoc();
 		//Set the target location
 		void setMove(int targetX, int targetY);
 		//Find out if a target is set

@@ -29,6 +29,11 @@ class Player
 		Resource m_resources;
 		//Name
 		string m_name;
+		//Research array
+		bool m_research[NUM_DEVELOPMENTS];
+
+		//Reset research
+		void resetResearch();
 		
 	public:
 		//Default constructor
@@ -44,6 +49,8 @@ class Player
 		void addTerritory(Tile* terr);
 		//Delete territory
 		void deleteTerritory(Tile* terr);
+		//Research a development
+		void research(int numDevelopment);
 };
 
 #endif
