@@ -96,8 +96,26 @@ bool init(int argc, char** argv)
 
 void gameLoop()
 {
+	int currPlayer = 0;
+	
 	while(true)
 	{
-		//Main game occurs here
+		//1. Upkeep - check energy, collect resources
+		upkeep(currPlayer);
+		//2. Development
+		development(currPlayer);
+		//3. Declare movement/attacks
+		
+
+		//4. Declare defenders
+		//5. Resolve combat
+		//6. Fees - pay for all combat
+
+		//Cycle to next player
+		currPlayer++;
+		if(currPlayer == players.size())
+		{
+			currPlayer = 0;
+		}
 	}
 }
